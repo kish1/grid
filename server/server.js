@@ -22,9 +22,7 @@ app.use(express.static(__dirname + "/.."));
 require("./app.js")(app, db);
 
 var ipaddress = "127.0.0.1";
-var port = 3200;
-
-app.listen(port, ipaddress);
+var port = 7200;
 
 var server = app.listen(port, ipaddress);
 server.on("close", function () {
