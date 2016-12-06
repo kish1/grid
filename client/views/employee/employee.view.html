@@ -1,0 +1,50 @@
+<div class="container view-container">
+    <h1 class="page-header">Employee Dashboard</h1>
+    <div ng-hide="model.message === null" class="alert alert-danger" role="alert">{{model.message}}</div>
+    <div class="table-responsive">
+        <table class="table">
+            <thead>
+            <tr>
+                <th class="col-xs-1 text-center">ID</th>
+                <th class=" col-xs-2 text-center">Name</th>
+                <th class="col-xs-1 text-center">Gender</th>
+                <th class="text-center">DOB</th>
+                <th class="col-xs-2 text-center">City</th>
+                <th class="col-xs-1 text-center">Salary</th>
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><input class="form-control text-center" ng-model="model.employee.employeeId" type="text"
+                           readonly="readonly"></td>
+                <td><input class="form-control text-center" ng-model="model.employee.fullName" type="text"></td>
+                <td><select  class="form-control text-center" ng-model="model.user.gender">
+                    <option ng-selected="model.employee.gender === 'M'" value="Male">Male</option>
+                    <option ng-selected="model.employee.gender === 'F'" value="Female">Female</option>
+                </select></td>
+                <td><input ng-model="model.employee.dob" type="date"
+                           class="form-control text-center"></td>
+                <td><input class="form-control text-center" ng-model="model.employee.city" type="text"></td>
+                <td><input class="form-control text-center" ng-model="model.employee.salary" type="text"></td>
+                <td class="no-wrapping">
+                    <button ng-click="model.addEmployee(model.employee)" class="btn btn-success">Add</button>
+                    <button ng-click="model.updateEmployee(model.employee)" class="btn btn-info">Update</button>
+                </td>
+            </tr>
+            <tr ng-repeat="employee in model.employees">
+                <td class="text-center">{{employee.employeeId}}</td>
+                <td class="text-center">{{employee.fullName}}</td>
+                <td class="text-center">{{(employee.gender === 'M')? 'Male' : 'Female'}}</td>
+                <td class="text-center">{{model.getDate(employee.dob)}}</td>
+                <td class="text-center">{{employee.city}}</td>
+                <td class="text-center">{{employee.salary}}</td>
+                <td class="no-wrapping">
+                    <button ng-click="model.selectEmployee($index)" class="btn btn-primary">Select</button>
+                    <button ng-click="model.deleteEmployee($index)" class="btn btn-danger">Delete</button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,10 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-3 col-md-2 sidebar" ng-controller="SidebarController as model">
+            <ul class="nav nav-sidebar">
+                <li ng-class="{ active : model.$location.path() === '/home'}"><a href="#/home">Home</a></li>
+                <li ng-class="{ active : model.$location.path() === '/employee'}"><a href="#/employee">Employee</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
