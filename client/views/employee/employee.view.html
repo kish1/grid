@@ -19,9 +19,9 @@
                 <td><input class="form-control text-center" ng-model="model.employee.employeeId" type="text"
                            readonly="readonly"></td>
                 <td><input class="form-control text-center" ng-model="model.employee.fullName" type="text"></td>
-                <td><select  class="form-control text-center" ng-model="model.user.gender">
-                    <option ng-selected="model.employee.gender === 'M'" value="Male">Male</option>
-                    <option ng-selected="model.employee.gender === 'F'" value="Female">Female</option>
+                <td><select  class="form-control text-center" ng-model="model.employee.gender">
+                    <option ng-selected="model.employee.gender === 'M'" value="M">Male</option>
+                    <option ng-selected="model.employee.gender === 'F'" value="F">Female</option>
                 </select></td>
                 <td><input ng-model="model.employee.dob" type="date"
                            class="form-control text-center"></td>
@@ -35,8 +35,8 @@
             <tr ng-repeat="employee in model.employees">
                 <td class="text-center">{{employee.employeeId}}</td>
                 <td class="text-center">{{employee.fullName}}</td>
-                <td class="text-center">{{(employee.gender === 'M')? 'Male' : 'Female'}}</td>
-                <td class="text-center">{{model.getDate(employee.dob)}}</td>
+                <td class="text-center">{{model.gender[employee.gender]}}</td>
+                <td class="text-center">{{employee.dob}}</td>
                 <td class="text-center">{{employee.city}}</td>
                 <td class="text-center">{{employee.salary}}</td>
                 <td class="no-wrapping">

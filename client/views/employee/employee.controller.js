@@ -9,13 +9,14 @@
 
     function EmployeeController(EmployeeService) {
         var vm = this;
+        vm.gender = {'M': 'Male', 'F':'Female'};
 
         vm.index = -1;
         vm.employee = {};
         vm.employees = [];
         vm.message = null;
         vm.addEmployee = addEmployee;
-        vm.updateEmployee = addEmployee;
+        vm.updateEmployee = updateEmployee;
         vm.deleteEmployee = deleteEmployee;
         vm.selectEmployee = selectEmployee;
         vm.getDate = getDate;
@@ -24,8 +25,8 @@
             EmployeeService
                 .findAllEmployees()
                 .then(function(result) {
-                    console.log(result.data);
                     vm.employees = result.data;
+                    vm.employees.map(formatEmployee);
                 },
                 function(err) {
                     vm.message = "Unable to fetch data from db";
@@ -38,8 +39,9 @@
             EmployeeService
                 .createEmployee(employee)
                 .then(function(result) {
-                    vm.employee['employeeId'] = result.data;
-                    vm.employees.push(vm.employee);
+                    employee['employeeId'] = result.data.insertId;
+                    employee['dob'] = vm.getDate(employee['dob'].toISOString());
+                    vm.employees.push(employee);
                     vm.employee = {};
                 },
                 function(err) {
@@ -54,7 +56,8 @@
             vm.employee = {
                 employeeId: vm.employees[index].employeeId,
                 fullName: vm.employees[index].fullName,
-                dob: vm.employees[index].dob,
+                gender: vm.employees[index].gender,
+                dob: new Date(vm.employees[index].dob),
                 city: vm.employees[index].city,
                 salary: vm.employees[index].salary
             };
@@ -63,10 +66,11 @@
         function updateEmployee(employee) {
             vm.message = null;
             EmployeeService
-                .updateEmployee(employee)
+                .updateEmployee(employee.employeeId, employee)
                 .then(function(success) {
                     if(success) {
-                        vm.employees[vm.index] = vm.employee;
+                        employee['dob'] = vm.getDate(employee['dob'].toISOString());
+                        vm.employees[vm.index] = employee;
                         vm.employee = {};
                         vm.index = -1;
                     }
@@ -83,7 +87,7 @@
                 .deleteEmployee(vm.employees[index].employeeId)
                 .then(function(success) {
                     if(success) {
-                        vm.splice(index, 1);
+                        vm.employees.splice(index, 1);
                     }
                 },
                 function(err) {
@@ -92,7 +96,11 @@
         }
 
         function getDate(date) {
-            return new Date(date).toISOString().substring(0,10);
+            return date.toString().substring(0,10);
+        }
+
+        function formatEmployee(employee) {
+            employee.dob = getDate(employee.dob);
         }
     }
 })();
